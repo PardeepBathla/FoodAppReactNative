@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, ScrollView } from 'react-native'
 import ResultList from '../components/ResultList'
 import SearchBar from '../components/SearchBar'
 import useResults from '../hooks/useResults'
 
 
-const SearchScreen = () => {
+const SearchScreen = (props) => {
 
     const [term, setTerm] = useState('')
     const [searchApi, results, errorMessage] = useResults();
@@ -15,10 +15,10 @@ const SearchScreen = () => {
         return results.filter(result => { return result.price === price })
     }
 
-    console.log(results);
+    // console.log(results);
 
     return (
-        <View style={styles.background}>
+        <View  style = {{flex : 1}}>
 
             <SearchBar
                 term={term}
@@ -26,15 +26,18 @@ const SearchScreen = () => {
                 onTermSubmitted={() => searchApi(term)} />
 
             { errorMessage ? <Text>{errorMessage} </Text> : null}
-            <Text>We have found {results.length} results</Text>
+            {/* <Text>We have found {results.length} results</Text> */}
+
+            <ScrollView>
+                <ResultList results={filterResultsByPrice('$')} title="Cost Effective" navigation = {props.navigation} />
+                <ResultList results={filterResultsByPrice('$$')} title="Bit Pricier"  navigation = {props.navigation}/>
+                {/* <ResultList results={filterResultsByPrice('$$$')} title="Big Spender" navigation = {props.navigation} /> */}
+                <ResultList results={filterResultsByPrice('$$')} title="Huge Spender"  navigation = {props.navigation} />
 
 
-            <ResultList results={filterResultsByPrice('$')} title="Cost Effective" />
-            <ResultList results={filterResultsByPrice('$$')} title="Bit Pricier" />
-            <ResultList results={filterResultsByPrice('$$')} title="Big Spender" />
+                <Text>{term}</Text>
 
-
-            <Text>{term}</Text>
+            </ScrollView>
         </View>
 
     )
@@ -42,37 +45,12 @@ const SearchScreen = () => {
 }
 
 
-const styless = StyleSheet.create({
-
-    background: {
-
-        backgroundColor: '#F0EEEE',
-        marginTop: 10,
-        height: 50,
-        flexDirection: 'row',
-        borderRadius: 5,
-        marginHorizontal: 15
-
-    },
-
-    input: {
-        fontSize: 19,//default is 14
-        flex: 1
-    },
-
-    image: {
-        width: 20,
-        height: 20,
-        marginHorizontal: 15,
-        alignSelf: 'center' // this is to align single item
-    }
-
-})
 
 const styles = StyleSheet.create({
     background: {
         backgroundColor: 'white',
-        flex: 1
+        flex: 1,
+        marginVertical: 10
     }
 
 })
