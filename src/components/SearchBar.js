@@ -1,15 +1,22 @@
 import React from 'react'
-import { Text, View, StyleSheet, Image } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
+import { Text, View, StyleSheet, Image, TextInput } from 'react-native'
 
 
-const SearchBar = () => {
+const SearchBar = ({ term, onTermChange,onTermSubmitted }) => {
 
     return (
         <View style={styles.background}>
 
             <Image style={styles.image} source={require('../../assets/loupe.png')} />
-            < TextInput style = {styles.input} placeholder = "Search" />
+            < TextInput
+                autoCapitalize='characters'
+                autoCorrect={false}
+                style={styles.input}
+                placeholder="Search"
+                value={term}
+                onChangeText={ onTermChange}
+                onSubmitEditing={onTermSubmitted}
+            />
 
         </View>
     )
@@ -21,24 +28,24 @@ const styles = StyleSheet.create({
     background: {
 
         backgroundColor: '#F0EEEE',
-        marginTop : 10,
+        marginTop: 10,
         height: 50,
-        flexDirection : 'row',
+        flexDirection: 'row',
         borderRadius: 5,
         marginHorizontal: 15
 
     },
 
-    input : {
-      fontSize : 19 ,//default is 14
-        flex : 1
+    input: {
+        fontSize: 19,//default is 14
+        flex: 1
     },
 
     image: {
         width: 20,
         height: 20,
-        marginHorizontal : 15,
-        alignSelf : 'center' // this is to align single item
+        marginHorizontal: 15,
+        alignSelf: 'center' // this is to align single item
     }
 
 })
